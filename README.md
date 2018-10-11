@@ -260,3 +260,4 @@ ReactDOM.render((
 * [Setting Up The Middleware](https://redux-observable.js.org/docs/basics/SettingUpTheMiddleware.html)
 * [Using redux-observable to handle asynchronous logic in Redux
 ](https://medium.com/dailyjs/using-redux-observable-to-handle-asynchronous-logic-in-redux-d49194742522)
+* [Redux-Observable Can Solve Your State Problems](https://medium.com/@Sawtaytoes/redux-observable-can-solve-your-state-problems-15b23a9649d7)
