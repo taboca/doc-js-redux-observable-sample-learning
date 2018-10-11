@@ -256,3 +256,9 @@ ReactDOM.render((
 ), document.getElementById('root'));
 
 ```
+
+# References
+
+* [Setting Up The Middleware](https://redux-observable.js.org/docs/basics/SettingUpTheMiddleware.html)
+* [Using redux-observable to handle asynchronous logic in Redux
+](https://medium.com/dailyjs/using-redux-observable-to-handle-asynchronous-logic-in-redux-d49194742522)
