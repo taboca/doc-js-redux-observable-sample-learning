@@ -154,3 +154,52 @@ export default function reduce(state = defaultState, action = {}) {
   }
 }
 ```
+
+## Updating root to include combineEpics
+
+```
+import { applyMiddleware, combineReducers } from 'redux';
+import { combineEpics } from 'redux-observable';
+
+import storeFlags from './reducer';
+import flagEpics from './epics';
+
+export const rootReducer = combineReducers({
+  storeFlags,
+});
+
+export const rootEpic = combineEpics(
+  flagEpics,
+);
+```
+
+## Updating index to tie your epics to the Redux system store
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+
+/* Redux setup */
+
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import { createEpicMiddleware } from 'redux-observable';
+
+import { rootReducer } from './store/root';
+import { rootEpic } from './store/root';
+
+const epicMiddleware = createEpicMiddleware();
+epicMiddleware.run(rootEpic);
+
+const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
+
+ReactDOM.render((
+  <Provider store={store}>
+    <App />
+  </Provider>
+), document.getElementById('root'));
+
+```
