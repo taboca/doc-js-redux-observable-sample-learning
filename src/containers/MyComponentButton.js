@@ -14,14 +14,10 @@ class MyComponentButton extends Component {
   }
 
   render() {
-    let showFlag = <h1>no flag</h1>;
-    if(this.props.flag) {
-      showFlag = <h1>flag!</h1>;
-    }
 
     return (
       <div>
-        {showFlag}
+        {this.props.flag}
         <button onClick={(e)=>{this.processClick(e)}}>click</button>
       </div>
     );

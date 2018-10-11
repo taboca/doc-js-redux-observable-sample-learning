@@ -4,6 +4,6 @@ import * as types from './actionTypes';
 
 export function command_setFlagOn() {
   return {
-      type : types.ACTION_FLAG_ON,
+      type : types.ACTION_FLAG_1,
   }
 }

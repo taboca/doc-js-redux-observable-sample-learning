@@ -16,7 +16,18 @@ import { rootEpic } from './store/root';
 const epicMiddleware = createEpicMiddleware();
 epicMiddleware.run(rootEpic);
 
-const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
+function configureStore() {
+  const store = createStore(
+    rootReducer,
+    applyMiddleware(epicMiddleware)
+  );
+
+  epicMiddleware.run(rootEpic);
+
+  return store;
+}
+
+const store = configureStore();
 
 ReactDOM.render((
   <Provider store={store}>
