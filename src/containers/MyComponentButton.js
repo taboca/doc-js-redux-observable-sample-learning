@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { command_setFlagOn } from '../store/actions.js';
 
 class MyComponentButton extends Component {
 
@@ -9,13 +10,18 @@ class MyComponentButton extends Component {
   }
 
   processClick() {
-    alert(this.props.flag);
+    this.props.dispatch(command_setFlagOn());
   }
 
   render() {
+    let showFlag = <h1>no flag</h1>;
+    if(this.props.flag) {
+      showFlag = <h1>flag!</h1>;
+    }
+
     return (
       <div>
-        {this.props.flag}
+        {showFlag}
         <button onClick={(e)=>{this.processClick(e)}}>click</button>
       </div>
     );
