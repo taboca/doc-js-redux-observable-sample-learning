@@ -14,20 +14,10 @@ import { rootReducer } from './store/root';
 import { rootEpic } from './store/root';
 
 const epicMiddleware = createEpicMiddleware();
+
+const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
+
 epicMiddleware.run(rootEpic);
-
-function configureStore() {
-  const store = createStore(
-    rootReducer,
-    applyMiddleware(epicMiddleware)
-  );
-
-  epicMiddleware.run(rootEpic);
-
-  return store;
-}
-
-const store = configureStore();
 
 ReactDOM.render((
   <Provider store={store}>

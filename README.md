@@ -155,6 +155,10 @@ export default function reduce(state = defaultState, action = {}) {
 }
 ```
 
+# Now the second part, using combineEpics
+
+Let's move from a click button -> flag to true, to an epic so the click changes state from 0 then to 1 plus delay up to 2.  
+
 ## Updating root to include combineEpics
 
 ```
@@ -162,16 +166,64 @@ import { applyMiddleware, combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 
 import storeFlags from './reducer';
-import flagEpics from './epics';
+import { flagFlip } from './epics';
 
 export const rootReducer = combineReducers({
   storeFlags,
 });
 
 export const rootEpic = combineEpics(
-  flagEpics,
+  flagFlip,
 );
 ```
+## Updating actionTypes for 2 changes "async" like operatio
+
+```
+export const ACTION_FLAG_1 = 'ACTION_FLAG_1';
+export const ACTION_FLAG_2 = 'ACTION_FLAG_2';
+```
+
+## creating the epic
+
+```
+import * as types from './actionTypes';
+import { filter, delay, mapTo } from 'rxjs/operators';
+import { ofType } from 'redux-observable';
+
+
+export const flagFlip = action$ => action$.pipe(
+  filter(action => action.type === types.ACTION_FLAG_1),
+  delay(1000),
+  mapTo({ type: types.ACTION_FLAG_2 })
+);
+```
+
+## Updating reducer changing from true/false to 0,1,2
+
+```
+import * as types from './actionTypes';
+
+const defaultState = {
+  flag: 0
+}
+
+export default function reduce(state = defaultState, action = {}) {
+  switch (action.type) {
+    case types.ACTION_FLAG_1:
+      return Object.assign({}, state, {
+        flag : 1,
+      });
+    case types.ACTION_FLAG_2:
+      return Object.assign({}, state, {
+        flag : 2,
+      });
+    default:
+      return state;
+  }
+}
+
+```
+
 
 ## Updating index to tie your epics to the Redux system store
 
@@ -192,9 +244,10 @@ import { rootReducer } from './store/root';
 import { rootEpic } from './store/root';
 
 const epicMiddleware = createEpicMiddleware();
-epicMiddleware.run(rootEpic);
 
 const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
+
+epicMiddleware.run(rootEpic);
 
 ReactDOM.render((
   <Provider store={store}>
