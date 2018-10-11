@@ -16,13 +16,14 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 ```
 
-## The Redux initial setup
+## The Redux initial setup (./src/index.js)
 
 For the complete file check [here at this point in time](https://github.com/taboca/doc-js-redux-observable-sample-learning/commit/220ad140a5b67f7ab3ad1e19d60c15d49beb9705?diff=split).
 
 ```
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import { rootReducer } from './store/root';
 
 const store = createStore(rootReducer);
 
@@ -33,7 +34,27 @@ ReactDOM.render((
 ), document.getElementById('root'));
 ```
 
-## Setup for combined reducers
+## App (./src/App.js)
+
+```
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import MyComponentButton from './containers/MyComponentButton'
+import './App.css';
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+          <MyComponentButton />
+      </div>
+    );
+  }
+}
+export default App;
+```
+
+## Setup for combined reducers (./src/store/root.js)
 
 ```
 import storeFlags from './reducer';
@@ -45,7 +66,7 @@ export const rootReducer = combineReducers({
 });
 ```
 
-## Store setup with a reduce
+## Store setup with a reduce (./src/store/reducer.js)
 
 ```
 const defaultState = {
@@ -60,7 +81,7 @@ export default function reduce(state = defaultState, action = {}) {
 }
 ```
 
-## container -> component setup
+## container -> component setup (./src/containers/MyComponentButton.js)
 
 ```
 import React, { Component } from 'react';
@@ -91,4 +112,45 @@ function mapStateToProps(state, ownProps) {
 
 export default connect(mapStateToProps)(MyComponentButton);
 
+```
+
+## Setup action types (./src/store/actionTypes.js)
+
+```
+export const ACTION_FLAG_ON = 'ACTION_FLAG_ON';
+```
+## Setup an action so to push state change to the store state (./src/store/actions.js)
+
+
+```
+import * as types from './actionTypes';
+
+/* Example of async with thunk.. */
+
+export function command_setFlagOn() {
+  return {
+      type : types.ACTION_FLAG_ON,
+  }
+}
+```
+
+## Updating the reducer
+
+```
+import * as types from './actionTypes';
+
+const defaultState = {
+  flag: false
+}
+
+export default function reduce(state = defaultState, action = {}) {
+  switch (action.type) {
+    case types.ACTION_FLAG_ON:
+      return Object.assign({}, state, {
+        flag : true,
+      });
+    default:
+      return state;
+  }
+}
 ```
