@@ -1,7 +1,7 @@
-import myFirstReducer from './reducer';
+import storeFlags from './reducer';
 
 import { applyMiddleware, combineReducers } from 'redux';
 
 export const rootReducer = combineReducers({
-  myFirstReducer,
+  storeFlags,
 });
