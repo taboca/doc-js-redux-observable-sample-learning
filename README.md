@@ -125,8 +125,6 @@ export const ACTION_FLAG_ON = 'ACTION_FLAG_ON';
 ```
 import * as types from './actionTypes';
 
-/* Example of async with thunk.. */
-
 export function command_setFlagOn() {
   return {
       type : types.ACTION_FLAG_ON,
