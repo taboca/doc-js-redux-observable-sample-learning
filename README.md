@@ -32,3 +32,63 @@ ReactDOM.render((
   </Provider>
 ), document.getElementById('root'));
 ```
+
+## Setup for combined reducers
+
+```
+import storeFlags from './reducer';
+
+import { applyMiddleware, combineReducers } from 'redux';
+
+export const rootReducer = combineReducers({
+  storeFlags,
+});
+```
+
+## Store setup with a reduce
+
+```
+const defaultState = {
+  flag: false
+}
+
+export default function reduce(state = defaultState, action = {}) {
+  switch (action.type) {
+    default:
+      return state;
+  }
+}
+```
+
+## container -> component setup
+
+```
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+class MyComponentButton extends Component {
+
+  constructor(props) {
+    super(props);
+    this.processClick = this.processClick.bind(this);
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.flag}
+        <button onClick={(e)=>{this.processClick(e)}}>click</button>
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state, ownProps) {
+  return {
+    flag : state.storeFlags.flag,
+  };
+}
+
+export default connect(mapStateToProps)(MyComponentButton);
+
+```
